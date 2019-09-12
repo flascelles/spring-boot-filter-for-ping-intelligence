@@ -7,14 +7,14 @@ Include this filter in your Spring Boot project code.
 
 The filter directs the sideband API calls to the ASE address provided by system variable `ase.baseurl`. Pass the ASE sideband listener address by setting this property when starting your microservice.
 For example:
-```
+```bash
 java -Dserver.port=8080 -Dase.baseurl=http://10.11.16.105:8443 -jar microservice.jar
 ```
 
 ## Additional Considerations
 
 You can provide your implementation specific way to dereference the identity of the user behind an API call by overriding this method:
-```
+```java
     private static String subjectFromReq(HttpServletRequest req) {
         // insert implementation-specific way to dereference a user from a request using for example the token
         String authorizationHeader = req.getHeader("Authorization");
@@ -29,7 +29,7 @@ You can provide your implementation specific way to dereference the identity of 
 Adding your implementation-specific subject dereferencing will automatically attach user name information to each of your API calls. This generates rich identity correlation in the reports and dashboards provided by PingIntelligence for APIs
 
 In some situations, you may want to not feed this metadata for all the calls going through this microservice, but only for some of it. You can add such rules at the beginning of the doFilter() method.
-```
+```java
     @Override
     public void doFilter
             (ServletRequest request, ServletResponse response, FilterChain filterchain)
